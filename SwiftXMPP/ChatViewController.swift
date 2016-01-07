@@ -52,11 +52,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let visualString = "V:[container]-\(kbSize.height)-|"
     
-    let newConstraint: NSArray = NSLayoutConstraint.constraintsWithVisualFormat(visualString, options: [], metrics: nil, views: ["container" : container])
+    let newConstraint = NSLayoutConstraint.constraintsWithVisualFormat(visualString, options: [], metrics: nil, views: ["container" : container])
     
     
     view.removeConstraint(constraint!)
-    view.addConstraints(newConstraint as [AnyObject] as [AnyObject])
+    view.addConstraints(newConstraint)
     
     view.updateConstraints()
     
@@ -72,7 +72,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   
 
   @IBAction func sendMessage() {
-    let messageStr: String = messageField!.text
+    let messageStr: String = messageField!.text!
     print(messageStr)
     if messageStr.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
       let body = DDXMLElement.elementWithName("body") as! DDXMLElement
@@ -98,7 +98,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
     let s = messages.objectAtIndex(indexPath.row) as! NSDictionary
     let cellIdentifier = "MessageCellIdentifier"
-    var cell:UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell
+    var cell:UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)!
     if !(cell != nil) {
       cell = UITableViewCell(style: .Value1, reuseIdentifier: cellIdentifier)
     }

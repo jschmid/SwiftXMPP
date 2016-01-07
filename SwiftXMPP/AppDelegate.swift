@@ -123,10 +123,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMPPStreamDelegate {
     func xmppStreamDidConnect(sender: XMPPStream) {
            print("xmppStreamDidConnect")
         isOpen = true
-        var error: NSError?
-        if (xmppStream!.authenticateWithPassword(password) ) {
-                  print("authentification successful")
-            
+        do {
+            try xmppStream!.authenticateWithPassword(password)
+            print("authentification successful")
+        } catch {
+            print("authentification error: \(error)")
         }
     }
     

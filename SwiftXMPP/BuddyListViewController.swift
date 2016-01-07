@@ -59,7 +59,7 @@ class BuddyListViewController: UIViewController, UITableViewDelegate, UITableVie
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let s: NSString = onlineBuddies.objectAtIndex(indexPath.row) as! NSString
     let cellIdentifier = "UserCellIdentifier"
-    var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell
+    var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)
     
     if !(cell != nil) {
       
