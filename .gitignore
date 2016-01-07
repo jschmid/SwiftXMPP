@@ -37,3 +37,8 @@ Session.vim
 
 # Xcode 	ignore build directory
 /Build
+xcuserdata
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
