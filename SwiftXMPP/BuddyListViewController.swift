@@ -24,7 +24,7 @@ class BuddyListViewController: UIViewController, UITableViewDelegate, UITableVie
     tView!.dataSource = self
     
     
-    var del = appDelegate()
+    let del = appDelegate()
     del.chatDelegate = self
     onlineBuddies = NSMutableArray()
         
@@ -40,7 +40,7 @@ class BuddyListViewController: UIViewController, UITableViewDelegate, UITableVie
   
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
-    var login : AnyObject! = NSUserDefaults.standardUserDefaults().objectForKey("userID")
+    let login : AnyObject! = NSUserDefaults.standardUserDefaults().objectForKey("userID")
     if (login != nil) {
       if appDelegate().connect() {
         //show buddy list
@@ -57,7 +57,7 @@ class BuddyListViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    var s: NSString = onlineBuddies.objectAtIndex(indexPath.row) as! NSString
+    let s: NSString = onlineBuddies.objectAtIndex(indexPath.row) as! NSString
     let cellIdentifier = "UserCellIdentifier"
     var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell
     
@@ -87,10 +87,10 @@ class BuddyListViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    println("didSelectRowAtIndexPath")
-    var userName: String? = onlineBuddies.objectAtIndex(indexPath.row) as? String
-    var storyBoard = UIStoryboard(name: "Main", bundle: nil)
-    var chatController: ChatViewController! = storyBoard.instantiateViewControllerWithIdentifier("chatViewController") as! ChatViewController
+    print("didSelectRowAtIndexPath")
+    let userName: String? = onlineBuddies.objectAtIndex(indexPath.row) as? String
+    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+    let chatController: ChatViewController! = storyBoard.instantiateViewControllerWithIdentifier("chatViewController") as! ChatViewController
     if let controller = chatController {
       controller.chatWithUser = userName!
       //presentModalViewController(controller, animated: true)
@@ -98,12 +98,12 @@ class BuddyListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //[self presentViewController: controller animated:YES completion:nil];
     }
-    println(chatController)
+    print(chatController)
   }
   
   func newBuddyOnLine(buddyName: String) {
     onlineBuddies.addObject(buddyName)
-   println("new buddy online: \(buddyName)")
+   print("new buddy online: \(buddyName)")
     tView!.reloadData()
   }
 

@@ -27,7 +27,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     tView!.dataSource = self
     tView!.delegate = self
     //self.messageField.becomeFirstResponder()
-    var del = appDelegate()
+    let del = appDelegate()
     del.messageDelegate = self
     messageField!.becomeFirstResponder()
     
@@ -44,25 +44,25 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   }
 
   func keyboardWasShown(aNotification: NSNotification) {
-    println("wohoo keyboards")
-    var constraint = bottomContainerConstraint
-    println("before: \(view.constraints())")
-    var info: NSDictionary = aNotification.userInfo!
-    var kbSize : CGRect = info.objectForKey(UIKeyboardFrameBeginUserInfoKey)!.CGRectValue()
+    print("wohoo keyboards")
+    let constraint = bottomContainerConstraint
+    print("before: \(view.constraints)")
+    let info: NSDictionary = aNotification.userInfo!
+    let kbSize : CGRect = info.objectForKey(UIKeyboardFrameBeginUserInfoKey)!.CGRectValue
     
-    var visualString = "V:[container]-\(kbSize.height)-|"
+    let visualString = "V:[container]-\(kbSize.height)-|"
     
-    var newConstraint: NSArray = NSLayoutConstraint.constraintsWithVisualFormat(visualString, options: nil, metrics: nil, views: ["container" : container])
+    let newConstraint: NSArray = NSLayoutConstraint.constraintsWithVisualFormat(visualString, options: [], metrics: nil, views: ["container" : container])
     
     
     view.removeConstraint(constraint!)
-    view.addConstraints(newConstraint as [AnyObject])
+    view.addConstraints(newConstraint as [AnyObject] as [AnyObject])
     
     view.updateConstraints()
     
-    println("\n after: \(view.constraints())")
-    println("old constraint: \(constraint)")
-    println("new constraint: \(newConstraint[0])")
+    print("\n after: \(view.constraints)")
+    print("old constraint: \(constraint)")
+    print("new constraint: \(newConstraint[0])")
   }
   
   override func didReceiveMemoryWarning() {
@@ -72,19 +72,19 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   
 
   @IBAction func sendMessage() {
-    var messageStr: String = messageField!.text
-    println(messageStr)
+    let messageStr: String = messageField!.text
+    print(messageStr)
     if messageStr.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-      var body = DDXMLElement.elementWithName("body") as! DDXMLElement
+      let body = DDXMLElement.elementWithName("body") as! DDXMLElement
       body.setStringValue(messageStr)
-      var message = DDXMLElement.elementWithName("message") as! DDXMLElement
+      let message = DDXMLElement.elementWithName("message") as! DDXMLElement
       message.addAttributeWithName("type", stringValue: "chat")
       message.addAttributeWithName("to", stringValue: chatWithUser as String)
       message.addChild(body)
       xmppStream().sendElement(message)
       messageField!.text = ""
       
-      var m: NSMutableDictionary = [:]
+      let m: NSMutableDictionary = [:]
       m["msg"] = messageStr
       m["sender"] = "you"
 //      println("m: \(m) and message: \(messageStr)")
@@ -96,7 +96,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-    var s = messages.objectAtIndex(indexPath.row) as! NSDictionary
+    let s = messages.objectAtIndex(indexPath.row) as! NSDictionary
     let cellIdentifier = "MessageCellIdentifier"
     var cell:UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell
     if !(cell != nil) {
@@ -135,10 +135,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   }
   
   func newMessageReceived(messageContent: NSDictionary) {
-    println("receivedMessage")
+    print("receivedMessage")
     messages.addObject(messageContent)
     tView!.reloadData()
-    var topIndexPath = NSIndexPath(forRow: (messages.count - 1), inSection: 0)
+    let topIndexPath = NSIndexPath(forRow: (messages.count - 1), inSection: 0)
     tView!.scrollToRowAtIndexPath(topIndexPath, atScrollPosition: .Middle, animated: true)
   }
 

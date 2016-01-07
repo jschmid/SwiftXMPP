@@ -30,20 +30,20 @@ class LoginViewController: UIViewController {
   }
   
   @IBAction func login () {
-    println("login") //TODO: Test
-    println(loginField!.text)
+    print("login") //TODO: Test
+    print(loginField!.text)
     
     
     if let login = loginField!.text {
       if let passwd = passwordField!.text {
-        println("Login: " + "\(loginField!.text)") //TODO: Test
+        print("Login: " + "\(loginField!.text)") //TODO: Test
         
         NSUserDefaults.standardUserDefaults().setValue(login, forKey: "userID")
         NSUserDefaults.standardUserDefaults().setValue(passwd, forKey: "userPassword")
         if( login.componentsSeparatedByString("@").count > 1 )
         {
             let loginServer = login.componentsSeparatedByString("@")[1]
-        println("server: \(loginServer)")
+        print("server: \(loginServer)")
         NSUserDefaults.standardUserDefaults().setValue(loginServer, forKey: "loginServer")
         NSUserDefaults.standardUserDefaults().synchronize()
         }

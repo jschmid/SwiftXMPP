@@ -57,27 +57,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMPPStreamDelegate {
     }
     
     func goOffline() {
-        var presence = XMPPPresence(type: "unavailable")
+        let presence = XMPPPresence(type: "unavailable")
         xmppStream!.sendElement(presence)
     }
     
     func goOnline() {
-        println("goOnline")
-        var presence = XMPPPresence(type: "away")
+        print("goOnline")
+        let presence = XMPPPresence(type: "away")
         xmppStream!.sendElement(presence)
     }
     
     func connect() -> Bool {
-        println("connecting")
+        print("connecting")
         setupStream()
     
         //NSUserDefaults.standardUserDefaults().setValue("8grabows@jabber.mafiasi.de", forKey: "userID")
         let b = NSUserDefaults.standardUserDefaults().stringForKey("userID")
-        println("user defaults: " + "\(b)")
+        print("user defaults: " + "\(b)")
         
-        var jabberID: String? = NSUserDefaults.standardUserDefaults().stringForKey("userID")
-        var myPassword: String? = NSUserDefaults.standardUserDefaults().stringForKey("userPassword")
-        var server: String? = NSUserDefaults.standardUserDefaults().stringForKey("loginServer")
+        let jabberID: String? = NSUserDefaults.standardUserDefaults().stringForKey("userID")
+        let myPassword: String? = NSUserDefaults.standardUserDefaults().stringForKey("userPassword")
+        let server: String? = NSUserDefaults.standardUserDefaults().stringForKey("loginServer")
         if server != nil{
             loginServer = server!
         }
@@ -90,8 +90,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMPPStreamDelegate {
             }
             
             if jabberID == nil || myPassword == nil{
-                println("no jabberID set:" + "\(jabberID)")
-                println("no password set:" + "\(myPassword)")
+                print("no jabberID set:" + "\(jabberID)")
+                print("no password set:" + "\(myPassword)")
                 return false
             }
             
@@ -99,8 +99,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMPPStreamDelegate {
             password = myPassword!
             
             var error: NSError?
-            if !stream.connectWithTimeout(XMPPStreamTimeoutNone, error: &error) {
-                var alert = UIAlertController(title: "Alert", message: "Cannot connect to : \(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+            do {
+                try stream.connectWithTimeout(XMPPStreamTimeoutNone)
+            } catch let error1 as NSError {
+                error = error1
+                let alert = UIAlertController(title: "Alert", message: "Cannot connect to : \(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
                 self.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
                 
@@ -118,11 +121,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMPPStreamDelegate {
     
     
     func xmppStreamDidConnect(sender: XMPPStream) {
-           println("xmppStreamDidConnect")
+           print("xmppStreamDidConnect")
         isOpen = true
         var error: NSError?
-        if (xmppStream!.authenticateWithPassword(password, error: &error) ) {
-                  println("authentification successful")
+        if (xmppStream!.authenticateWithPassword(password) ) {
+                  print("authentification successful")
             
         }
     }
@@ -137,10 +140,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMPPStreamDelegate {
             //println("message: \(message)")
             if let msg: String = message.elementForName("body")?.stringValue() {
                 if let from: String = message.attributeForName("from")?.stringValue() {
-                    var m: NSMutableDictionary = [:]
+                    let m: NSMutableDictionary = [:]
                     m["msg"] = msg
                     m["sender"] = from
-                    println("messageReceived")
+                    print("messageReceived")
                     if messageDelegate != nil
                     {
                     messageDelegate!.newMessageReceived(m)
@@ -154,11 +157,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMPPStreamDelegate {
         //    println("didReceivePresence")
         
         if let presence = didReceivePresence {
-            var presenceType = presence.type()
-            var myUsername = sender?.myJID.user
-            var presenceFromUser = presence.from().user
+            let presenceType = presence.type()
+            let myUsername = sender?.myJID.user
+            let presenceFromUser = presence.from().user
             
-         println(chatDelegate)
+         print(chatDelegate)
             if chatDelegate != nil {
                 
                 if presenceFromUser != myUsername {
